@@ -26,8 +26,12 @@ app.get("/api/hello", function (req, res) {
 
 
 app.get("/api/timestamp/:dateString?", function (req, res) {
+  const dateString = req.params.dateString;
+  let dateEntered;
+  dateString ? dateEntered = true : dateEntered = false;
+  const dateValid = new Date(dateString) !== null;
   
-  res.json({date: req.params.dateString ? new Date(req.params.dateString) : new Date()});
+  res.json({"unix": dateEntered ? dateValid ? new Date(dateString).getTime(): null : new Date().getTime(), "utc" : dateEntered? dateValid ? new Date(dateString).toUTCString():'Invalid Date':new Date().toUTCString()});
 });
 
 
